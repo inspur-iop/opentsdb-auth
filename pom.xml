@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.inspur.opentsdb</groupId>
+    <artifactId>authentication-plugin</artifactId>
+    <version>1.0.0</version>
+
+    <properties>
+        <!--<tsdb.version>2.2.0</tsdb.version>-->
+        <tsdb.version>2.4.0RC2</tsdb.version>
+        <oauth2.version>1.0.2</oauth2.version>
+    </properties>
+
+    <contributors>
+        <contributor>
+            <name>Lynn Yuan</name>
+            <email>yuanxiaolong@inspur.com</email>
+        </contributor>
+    </contributors>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>net.opentsdb</groupId>
+            <artifactId>opentsdb</artifactId>
+            <version>${tsdb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.oltu.oauth2</groupId>
+            <artifactId>org.apache.oltu.oauth2.authzserver</artifactId>
+            <version>${oauth2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20140107</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.13</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.oltu.oauth2</groupId>
+            <artifactId>org.apache.oltu.oauth2.resourceserver</artifactId>
+            <version>${oauth2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.oltu.oauth2</groupId>
+            <artifactId>org.apache.oltu.oauth2.client</artifactId>
+            <version>${oauth2.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jboss.netty/netty -->
+		<dependency>
+		    <groupId>org.jboss.netty</groupId>
+		    <artifactId>netty</artifactId>
+		    <version>3.2.2.Final</version>
+		</dependency>
+		<dependency>
+	        <groupId>com.google.guava</groupId>
+	        <artifactId>guava</artifactId>
+	        <version>18.0</version>
+	    </dependency>
+	    <!-- https://mvnrepository.com/artifact/com.stumbleupon/async -->
+	    <dependency>
+	        <groupId>com.stumbleupon</groupId>
+	        <artifactId>async</artifactId>
+	        <version>1.4.0</version>
+	    </dependency>
+		<dependency>
+            <groupId>org.hbase</groupId>
+            <artifactId>asynchbase</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+	    
+    </dependencies>
+
+
+    <build>
+        <pluginManagement>
+	        <plugins>
+	            <plugin>
+	                <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-compiler-plugin</artifactId>
+	                <configuration>
+	                    <source>1.8</source>
+	                    <target>1.8</target>
+	                </configuration>
+	            </plugin>
+	            <plugin>
+	                <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-shade-plugin</artifactId>
+	                <version>1.6</version>
+	                <executions>
+	                    <execution>
+	                        <phase>package</phase>
+	                        <goals>
+	                            <goal>shade</goal>
+	                        </goals>
+	                        <configuration>
+	                            <artifactSet>
+	                                <includes>
+	                                    <include>org.apache.oltu.oauth2:org.apache.oltu.oauth2.authzserver</include>
+	                                    <include>org.apache.oltu.oauth2:org.apache.oltu.oauth2.resourceserver</include>
+	                                    <include>org.json:json</include>
+	                                </includes>
+	                            </artifactSet>
+	                        </configuration>
+	                    </execution>
+	                </executions>
+	            </plugin>
+	            <plugin>
+	                <groupId>eu.somatik.serviceloader-maven-plugin</groupId>
+	                <artifactId>serviceloader-maven-plugin</artifactId>
+	                <version>1.0.2</version>
+	                <configuration>
+	                    <services>
+	                        <param>net.opentsdb.auth.Authentication</param>
+	                    </services>
+	                </configuration>
+	                <executions>
+	                    <execution>
+	                        <goals>
+	                            <goal>generate</goal>
+	                        </goals>
+	                    </execution>
+	                </executions>
+	            </plugin>
+	        </plugins>
+        </pluginManagement>
+    </build>
+
+</project>
